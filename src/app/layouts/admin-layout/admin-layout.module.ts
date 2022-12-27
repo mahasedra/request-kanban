@@ -16,6 +16,7 @@ import { UpgradeComponent }         from '../../pages/upgrade/upgrade.component'
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { KanbanComponent } from 'app/pages/kanban/kanban.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     DragDropModule
   ],
   declarations: [
+    KanbanComponent,
     DashboardComponent,
     UserComponent,
     TableComponent,

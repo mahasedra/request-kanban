@@ -13,4 +13,7 @@ export class RequestsService {
   get() {
     return this.http.get<Requests[]>(REQUEST_API);
   }
+  update(payload: Requests) {
+    return this.http.put(REQUEST_API + payload.id, payload);
+  }
 }

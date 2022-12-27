@@ -8,8 +8,10 @@ import { IconsComponent } from '../../pages/icons/icons.component';
 import { MapsComponent } from '../../pages/maps/maps.component';
 import { NotificationsComponent } from '../../pages/notifications/notifications.component';
 import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
+import { KanbanComponent } from 'app/pages/kanban/kanban.component';
 
 export const AdminLayoutRoutes: Routes = [
+    { path: 'kanban',          component: KanbanComponent },
     { path: 'dashboard',      component: DashboardComponent },
     { path: 'user',           component: UserComponent },
     { path: 'table',          component: TableComponent },
