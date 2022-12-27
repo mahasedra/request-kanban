@@ -13,6 +13,7 @@ import { AppRoutes } from './app.routing';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
+import { HttpClientModule } from "@angular/common/http";
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { httpInterceptorProviders } from './_helpers/http.interceptor';
     AdminLayoutComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(AppRoutes, {
       useHash: true
