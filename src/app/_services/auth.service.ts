@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IApiResponse, IApiTokenResponse } from 'app/interfaces/ApiResponse';
 import { ICredentials } from 'app/interfaces/ApiCredentials';
+import { resolve } from 'path';
 
 const AUTH_API = 'http://localhost:8080/api/';
 
@@ -16,15 +17,24 @@ const httpOptions = {
 export class AuthService {
     constructor(private http: HttpClient) { }
 
-    login(username: string, password: string): Observable<any> {
-        return this.http.post(
-            AUTH_API + 'signin',
-            {
-                username,
-                password,
-            },
-            httpOptions
-        );
+    login(email: string, password: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.post(
+                AUTH_API + 'signin',
+                {
+                    email,
+                    password,
+                },
+                httpOptions
+            ).subscribe({
+                next: (response: any) => {
+                    resolve(response)
+                },
+                error: (e) => {
+                    reject(e)
+                }
+            });;
+        })
     }
 
     register(username: string, email: string, password: string): Observable<any> {
@@ -60,7 +70,7 @@ export class AuthService {
 
     getToken(credentials: ICredentials): Promise<IApiTokenResponse> {
         return new Promise((resolve, reject) => {
-            this.http.post<IApiTokenResponse>(AUTH_API+ "token", credentials).subscribe({
+            this.http.post<IApiTokenResponse>(AUTH_API + "token", credentials).subscribe({
                 next: (response: IApiTokenResponse) => {
                     resolve(response);
                 },
@@ -74,7 +84,7 @@ export class AuthService {
     refreshToken(credentials: ICredentials): Promise<IApiTokenResponse> {
         return new Promise((resolve, reject) => {
             const token: string | null = localStorage.getItem('token');
-            this.http.post<IApiTokenResponse>(AUTH_API+ "token/refresh", {refresh_token: token}).subscribe({
+            this.http.post<IApiTokenResponse>(AUTH_API + "token/refresh", { refresh_token: token }).subscribe({
                 next: (response: IApiTokenResponse) => {
                     resolve(response);
                 },

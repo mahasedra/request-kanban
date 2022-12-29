@@ -11,7 +11,7 @@ import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
 import { KanbanComponent } from 'app/pages/kanban/kanban.component';
 
 export const AdminLayoutRoutes: Routes = [
-    { path: 'kanban',          component: KanbanComponent },
+    { path: 'kanban',         component: KanbanComponent },
     { path: 'dashboard',      component: DashboardComponent },
     { path: 'user',           component: UserComponent },
     { path: 'table',          component: TableComponent },
