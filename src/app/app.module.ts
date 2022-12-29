@@ -14,12 +14,14 @@ import { AppRoutes } from './app.routing';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
 import { HttpClientModule } from "@angular/common/http";
+import { LoginComponent } from './pages/login/login.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
+    LoginComponent
   ],
   imports: [
     HttpClientModule,
