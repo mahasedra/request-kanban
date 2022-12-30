@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { NoAuthGuard } from './_guards/no-auth.guard';
 
@@ -11,11 +10,6 @@ export const AppRoutes: Routes = [
     path: 'login',
     // canActivate: [NoAuthGuard],
     component: LoginComponent
-  },
-  {
-    path: 'register',
-    // canActivate: [NoAuthGuard],
-    component: RegisterComponent
   },
   {
     path: '',
