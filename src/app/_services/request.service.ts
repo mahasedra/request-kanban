@@ -1,9 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IRequest } from 'app/interfaces/Request';
-import { rejects } from 'assert';
-import { error } from 'console';
-import { Observable } from 'rxjs';
 
 const REQUEST_API = 'http://localhost:8080/api/request/';
 

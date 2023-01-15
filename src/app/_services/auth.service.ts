@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IApiResponse, IApiTokenResponse } from 'app/interfaces/ApiResponse';
 import { ICredentials } from 'app/interfaces/ApiCredentials';
-import { resolve } from 'path';
 
 const AUTH_API = 'http://localhost:8080/api/';
 
