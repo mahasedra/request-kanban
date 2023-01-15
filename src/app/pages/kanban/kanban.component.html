@@ -12,7 +12,7 @@
                         <div class="tasks-container custom-scrollbar" id="{{column.id}}" [cdkDropListConnectedTo]="['0', '1', '2', '3']"
                             cdkDropList [cdkDropListData]="column.tasks" (cdkDropListDropped)="drop($event)">
                             <div class="task" *ngFor="let item of column.tasks" cdkDrag>
-                                {{ item.name + " " + item.id }}
+                                {{ item.inscription_number + " " + item.id }}
                             </div>
                         </div>
                     </div>

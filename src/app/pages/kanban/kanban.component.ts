@@ -12,7 +12,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./kanban.component.css']
 })
 export class KanbanComponent implements OnInit {
-  tasks: IRequest[] = []
+  tasks: any
+  process: any
   public waiting: IRequest[] = [
     {
       id: 1,
@@ -70,19 +71,21 @@ export class KanbanComponent implements OnInit {
       type: RequestType.CERTIFICAT_SCOLARITE
     }
   ]
+  public board!: Board 
 
-  public board: Board = new Board('Demandes de documents administratifs', [
-    new Column('Demandes', '0', this.waiting),
-    new Column('En cours de traitement', '1', this.inProgess),
-    new Column('Fini', '2', this.done),
-    new Column('Livré', '3', this.delivered),
-  ]);
-
+  
   constructor(private requestService: RequestService) { }
-
+  
   public async ngOnInit(): Promise<void> {
     this.tasks = await this.requestService.get();
-    console.log(this.board);
+    const requests= this.tasks.results.filter(el => !el.treatment)
+    const process= this.tasks.results.filter(el => el.treatment && el.treatment !== "")
+    this.board = new Board('Demandes de documents administratifs', [
+      new Column('Demandes', '0', requests ? requests : this.waiting),
+      new Column('En cours de traitement', '1', process ? process : this.inProgess),
+      new Column('Fini', '2', this.done),
+      new Column('Livré', '3', this.delivered),
+    ]);
   }
 
   public dropGrid(event: CdkDragDrop<IRequest[]>): void {
@@ -97,28 +100,29 @@ export class KanbanComponent implements OnInit {
     } else {
       console.log("mylog", typeof event.container.id);
       let state: RequestState = null
-        switch (event.container.id) {
-          case '0':
-            state= RequestState.WAITING;
-          case '1':
-            state= RequestState.IN_PROGRESS;
-          case '2':
-            state= RequestState.DONE;
-          case '3':
-            state= RequestState.DELIVERED;
-        }
-      
+      switch (event.container.id) {
+        case '0':
+          state = RequestState.WAITING;
+        case '1':
+          state = RequestState.IN_PROGRESS;
+        case '2':
+          state = RequestState.DONE;
+        case '3':
+          state = RequestState.DELIVERED;
+      }
+
       const request = {
         ...event.previousContainer.data[event.previousIndex],
         state
       }
-      this.requestService.update(request).then((result)=>{
+      console.log("mylog",request)
+      this.requestService.update(request).then((result) => {
         console.log(result)
         transferArrayItem(event.previousContainer.data,
           event.container.data,
           event.previousIndex,
           event.currentIndex);
-      }).catch((e)=> {
+      }).catch((e) => {
         console.log(e)
         transferArrayItem(event.previousContainer.data,
           event.container.data,

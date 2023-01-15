@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'app/_services/auth.service';
 import { TokenStorageService } from 'app/_services/token-storage.service';
 
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   error = '';
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private tokenStorage: TokenStorageService) { }
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private tokenStorage: TokenStorageService, private router: Router) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit {
       console.log(data)
       this.tokenStorage.saveToken(data.access);
       this.tokenStorage.saveUser(data);
+      this.router.navigate(['/kanban']);
     }).catch(err => {
       console.log(err)
     });

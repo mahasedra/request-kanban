@@ -1,11 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IRequest } from 'app/interfaces/Request';
-import { rejects } from 'assert';
-import { error } from 'console';
-import { Observable } from 'rxjs';
 
-const REQUEST_API = 'http://localhost:8080/api/request/';
+const REQUEST_API = 'http://localhost:8000/api/document_requests/';
+const TREATMENT_API = 'http://localhost:8000/api/treatments/';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +23,11 @@ export class RequestService {
       });
     })
   }
-  update(payload: IRequest): Promise<IRequest> {
+  update(payload: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.http.put<IRequest>(REQUEST_API + payload.id, payload).subscribe({
+      this.http.post<IRequest>(TREATMENT_API, {
+        document_request : REQUEST_API + payload.id + "/"
+      }).subscribe({
         next: (response: IRequest) => {
           resolve(response)
         },
