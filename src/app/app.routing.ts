@@ -8,12 +8,12 @@ import { NoAuthGuard } from './_guards/no-auth.guard';
 export const AppRoutes: Routes = [
   {
     path: 'login',
-    // canActivate: [NoAuthGuard],
+    canActivate: [NoAuthGuard],
     component: LoginComponent
   },
   {
     path: '',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     component: AdminLayoutComponent,
     children: [
       {

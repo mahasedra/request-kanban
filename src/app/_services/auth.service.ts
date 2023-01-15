@@ -3,9 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IApiResponse, IApiTokenResponse } from 'app/interfaces/ApiResponse';
 import { ICredentials } from 'app/interfaces/ApiCredentials';
-import { resolve } from 'path';
+import { TokenStorageService } from './token-storage.service';
 
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = 'http://localhost:8000/api/token/';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,38 +15,29 @@ const httpOptions = {
     providedIn: 'root',
 })
 export class AuthService {
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private tokenStorage: TokenStorageService) { }
 
-    login(email: string, password: string): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.http.post(
-                AUTH_API + 'signin',
-                {
-                    email,
-                    password,
-                },
-                httpOptions
-            ).subscribe({
-                next: (response: any) => {
-                    resolve(response)
-                },
-                error: (e) => {
-                    reject(e)
-                }
-            });;
-        })
-    }
-
-    register(username: string, email: string, password: string): Observable<any> {
-        return this.http.post(
-            AUTH_API + 'signup',
-            {
-                username,
-                email,
-                password,
-            },
-            httpOptions
-        );
+    login(username: string, password: string): Promise<any> {
+        if(this.tokenStorage.getToken()){
+            return new Promise((resolve, reject) => {
+                this.http.post(
+                    AUTH_API,
+                    {
+                        username : username,
+                        password : password,
+                    },
+                    httpOptions
+                ).subscribe({
+                    next: (response: any) => {
+                        resolve(response)
+                    },
+                    error: (e) => {
+                        reject(e)
+                    }
+                });;
+            })
+        }
+        else return
     }
 
     logout(): Observable<any> {
@@ -54,18 +45,23 @@ export class AuthService {
     }
 
     isAuthenticated(): Promise<boolean> {
-        return new Promise((resolve) => {
-            this.http.get<IApiResponse>(AUTH_API).subscribe({
-                next: (response: IApiResponse) => {
-                    if (!response.success) localStorage.removeItem('token');
-                    resolve(response.success);
-                },
-                error: (e) => {
-                    localStorage.removeItem('token');
-                    resolve(false);
-                },
+        if(this.tokenStorage.getToken()){
+            return new Promise((resolve) => {
+                this.http.post<IApiResponse>(AUTH_API + 'verify/', {
+                    token: this.tokenStorage.getToken()
+                }).subscribe({
+                    next: (response: IApiResponse) => {
+                        if (!response.success) localStorage.removeItem('token');
+                        resolve(response.success);
+                    },
+                    error: (e) => {
+                        localStorage.removeItem('token');
+                        resolve(false);
+                    },
+                });
             });
-        });
+        }
+        else return
     }
 
     getToken(credentials: ICredentials): Promise<IApiTokenResponse> {
