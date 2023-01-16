@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Board } from 'app/models/kanban/board.model';
 import { Column } from 'app/models/kanban/column.model';
 import { IRequest, RequestState, RequestType } from 'app/interfaces/Request';
 import { RequestService } from 'app/_services/request.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-kanban',
