@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { IApiResponse, IApiTokenResponse } from 'app/interfaces/ApiResponse';
 import { ICredentials } from 'app/interfaces/ApiCredentials';
 import { TokenStorageService } from './token-storage.service';
+import { Router } from '@angular/router';
 
 const AUTH_API = 'http://localhost:8000/api/token/';
 
@@ -15,7 +16,7 @@ const httpOptions = {
     providedIn: 'root',
 })
 export class AuthService {
-    constructor(private http: HttpClient, private tokenStorage: TokenStorageService,) { }
+    constructor(private http: HttpClient, private tokenStorage: TokenStorageService, private router: Router) { }
 
     login(username: string, password: string): Promise<any> {
         return new Promise((resolve, reject) => {
@@ -44,6 +45,10 @@ export class AuthService {
     isAuthenticated(): Promise<boolean> {
         if (this.tokenStorage.getToken()) {
             return new Promise((resolve) => {
+                if (this.tokenStorage.getToken()) {
+                    this.router.navigate(['/login']);
+                    resolve(false)
+                }
                 this.http.post<IApiResponse>(AUTH_API + 'verify/', {
                     token: this.tokenStorage.getToken()
                 }).subscribe({
@@ -51,6 +56,7 @@ export class AuthService {
                         console.log("test", response)
                         if (response.code && response.detail) {
                             this.tokenStorage.removeToken()
+                            this.router.navigate(['/login']);
                             resolve(false)
                         }
                         resolve(true);
