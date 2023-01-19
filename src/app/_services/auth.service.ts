@@ -15,7 +15,7 @@ const httpOptions = {
     providedIn: 'root',
 })
 export class AuthService {
-    constructor(private http: HttpClient, private tokenStorage: TokenStorageService) { }
+    constructor(private http: HttpClient, private tokenStorage: TokenStorageService,) { }
 
     login(username: string, password: string): Promise<any> {
         return new Promise((resolve, reject) => {
