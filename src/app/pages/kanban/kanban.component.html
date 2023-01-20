@@ -9,10 +9,57 @@
                         <div class="column-title" cdkDragHandle>
                             {{ column.name }}
                         </div>
-                        <div class="tasks-container custom-scrollbar" id="{{column.id}}" [cdkDropListConnectedTo]="['0', '1', '2', '3']"
-                            cdkDropList [cdkDropListData]="column.tasks" (cdkDropListDropped)="drop($event)">
+                        <div class="tasks-container custom-scrollbar" id="{{column.id}}"
+                            [cdkDropListConnectedTo]="['0', '1', '2', '3']" cdkDropList [cdkDropListData]="column.tasks"
+                            (cdkDropListDropped)="drop($event)">
                             <div class="task" *ngFor="let item of column.tasks" cdkDrag>
-                                {{ item.inscription_number + " " + item.id }}
+                                <mat-accordion class="" multi>
+                                    <mat-expansion-panel>
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                Matricule: {{ item.inscription_number}}
+                                            </mat-panel-title>
+                                            <mat-panel-description>
+                                                Tel: {{item.tel }}
+                                                <mat-icon>account_circle</mat-icon>
+                                            </mat-panel-description>
+                                        </mat-expansion-panel-header>
+                                        <table class="table custom_table">
+                                            <tr>
+                                                <td>Année</td>
+                                                <td class="data">{{item.year}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Niveau</td>
+                                                <td class="data">{{item.level}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Nom</td>
+                                                <td class="data">{{item.last_name}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Prénom</td>
+                                                <td class="data">{{item.first_name}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Date de naissance</td>
+                                                <td class="data">{{item.birth_date}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Lieu de naissance</td>
+                                                <td class="data">{{item.birth_place}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Nom du père</td>
+                                                <td class="data">{{item.father}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Nom de la mère</td>
+                                                <td class="data">{{item.mother}}</td>
+                                            </tr>
+                                        </table>
+                                    </mat-expansion-panel>
+                                </mat-accordion>
                             </div>
                         </div>
                     </div>

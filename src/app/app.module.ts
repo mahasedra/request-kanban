@@ -17,6 +17,7 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
 import { ReactiveFormsModule } from "@angular/forms";
 import { LoginComponent } from "./pages/login/login.component";
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -30,7 +31,6 @@ import { LoginComponent } from "./pages/login/login.component";
     HttpClientModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(AppRoutes, {
-      
     }),
     SidebarModule,
     NavbarModule,
@@ -38,6 +38,7 @@ import { LoginComponent } from "./pages/login/login.component";
     FooterModule,
     FixedPluginModule,
     ReactiveFormsModule,
+    MatSnackBarModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

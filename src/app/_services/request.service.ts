@@ -23,10 +23,25 @@ export class RequestService {
       });
     })
   }
-  update(payload: any): Promise<any> {
+  moveToWaiting(payload: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.put<any>(REQUEST_API + payload.id + "/", {
+        ...payload,
+        treatment: ""
+      }).subscribe({
+        next: (response: any) => {
+          resolve(response)
+        },
+        error: (e) => {
+          reject(e)
+        }
+      });
+    })
+  }
+  moveToInProcess(payload: any): Promise<any> {
     return new Promise((resolve, reject) => {
       this.http.post<IRequest>(TREATMENT_API, {
-        document_request : REQUEST_API + payload.id + "/"
+        document_request: REQUEST_API + payload.id + "/"
       }).subscribe({
         next: (response: IRequest) => {
           resolve(response)
