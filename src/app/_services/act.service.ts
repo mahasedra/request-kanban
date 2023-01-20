@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class ActService {
 
     constructor(private http: HttpClient) { }
-    getAct(uri): Promise<any> {
+    getAct(uri: string): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http.get<any>(uri).subscribe({
                 next: (response: any) => {
