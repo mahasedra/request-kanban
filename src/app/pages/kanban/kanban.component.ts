@@ -18,63 +18,6 @@ export class KanbanComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   tasks: any
   process: any
-  public waiting: IRequest[] = [
-    {
-      id: 1,
-      name: 'Demande de certificat de scolarité',
-      state: RequestState.WAITING,
-      type: RequestType.CERTIFICAT_SCOLARITE
-    },
-    {
-      id: 2,
-      name: 'Demande de certificat de scolarité',
-      state: RequestState.WAITING,
-      type: RequestType.CERTIFICAT_SCOLARITE
-    }
-  ]
-  private inProgess: IRequest[] = [
-    {
-      id: 3,
-      name: 'Demande de certificat de scolarité',
-      state: RequestState.IN_PROGRESS,
-      type: RequestType.CERTIFICAT_SCOLARITE
-    },
-    {
-      id: 4,
-      name: 'Demande de certificat de scolarité',
-      state: RequestState.IN_PROGRESS,
-      type: RequestType.CERTIFICAT_SCOLARITE
-    }
-  ]
-
-  private done: IRequest[] = [
-    {
-      id: 5,
-      name: 'Demande de certificat de scolarité',
-      state: RequestState.DONE,
-      type: RequestType.CERTIFICAT_SCOLARITE
-    },
-    {
-      id: 6,
-      name: 'Demande de certificat de scolarité',
-      state: RequestState.DONE,
-      type: RequestType.CERTIFICAT_SCOLARITE
-    }
-  ]
-  private delivered: IRequest[] = [
-    {
-      id: 7,
-      name: 'Demande de certificat de scolarité',
-      state: RequestState.DELIVERED,
-      type: RequestType.CERTIFICAT_SCOLARITE
-    },
-    {
-      id: 8,
-      name: 'Demande de certificat de scolarité',
-      state: RequestState.DELIVERED,
-      type: RequestType.CERTIFICAT_SCOLARITE
-    }
-  ]
   public board!: Board
 
 
@@ -88,54 +31,87 @@ export class KanbanComponent implements OnInit {
       })
         .catch(e => { return null });
     });
-    console.log("ACT", this.tasks.results)
-    const requests = this.tasks.results.filter(el => !el.treatment)
-    const process = this.tasks.results.filter(el => el.treatment && el.treatment !== "")
+    console.log("TASKS", this.tasks.results)
+    let requests = this.tasks.results.filter(el => !el.treatment)
+    let process = this.tasks.results.filter(el => el.treatment && el.treatment !== "" && !el.finished && !el.delivered)
+    let finished = this.tasks.results.filter(el => el.finished && (!el.delivered))
+    let delivered = this.tasks.results.filter(el => el.finished && el.delivered)
     this.board = new Board('Demandes de documents administratifs', [
-      new Column('Demandes', '0', requests ? requests : this.waiting),
-      new Column('En cours de traitement', '1', process ? process : this.inProgess),
-      new Column('Fini', '2', this.done),
-      new Column('Livré', '3', this.delivered),
+      new Column('Demandes', '0', requests),
+      new Column('En cours de traitement', '1', process),
+      new Column('Fini', '2', finished),
+      new Column('Livré', '3', delivered),
     ]);
   }
 
-  public dropGrid(event: CdkDragDrop<IRequest[]>): void {
+  public dropGrid(event: CdkDragDrop<any>): void {
     moveItemInArray(this.board.columns, event.previousIndex, event.currentIndex);
   }
 
-  public drop(event: CdkDragDrop<IRequest[]>): void {
+  public drop(event: CdkDragDrop<any>): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      // console.log("mylog", event.previousIndex, event.currentIndex);
     } else {
       const request = event.previousContainer.data[event.previousIndex]
       console.log("mylog", request)
-      switch (event.container.id) {
-        case '0':
-        case '1':
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+
+      let notError = true
+      const action = (event.container.id).toString()
+      console.log("CONTAINER", action )
+      switch (action) {
+        case "0":
+          transferArrayItem(
+            event.container.data,
+            event.previousContainer.data,
+            event.currentIndex,
+            event.previousIndex
+          );
+          break
+        case "1":
           this.requestService.moveToInProcess(request).then((result) => {
             console.log(result)
-            transferArrayItem(event.previousContainer.data,
-              event.container.data,
-              event.previousIndex,
-              event.currentIndex);
             this.openSnackBar("Document en cours de traitement", "bg-success")
           }).catch((e) => {
-            console.log(e)
-            transferArrayItem(event.previousContainer.data,
-              event.container.data,
-              event.previousIndex,
-              event.currentIndex);
+            notError = false
             this.openSnackBar("Une erreur est survenu", "bg-danger")
           })
-        case '2':
-
-        case '3':
-
+          break
+        case "2":
+          this.requestService.moveToFinished(request).then((result) => {
+            console.log(result)
+            this.openSnackBar("Document fini", "bg-success")
+          }).catch((e) => {
+            notError = false
+            this.openSnackBar("Une erreur est survenu", "bg-danger")
+          })
+          break
+        case "3":
+          this.requestService.moveToDelivered(request).then((result) => {
+            console.log(result)
+            this.openSnackBar("Document livré", "bg-success")
+          }).catch((e) => {
+            notError = false
+            this.openSnackBar("Une erreur est survenu", "bg-danger")
+          })
+          break
+      }
+      if (!notError) {
+        transferArrayItem(
+          event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex
+        );
       }
     }
   }
-  openSnackBar(message: string, panelClass: string | string[]) {
+  public openSnackBar(message: string, panelClass: string | string[]) {
     this._snackBar.open(message, "Fermer", {
       duration: 3000,
       panelClass: panelClass

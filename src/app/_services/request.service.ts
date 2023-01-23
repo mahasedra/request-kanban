@@ -52,4 +52,34 @@ export class RequestService {
       });
     })
   }
+  moveToFinished(payload: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.patch<IRequest>(REQUEST_API + payload.id + "/", {
+        finished: true,
+      }).subscribe({
+        next: (response: IRequest) => {
+          console.log(response)
+          resolve(response)
+        },
+        error: (e) => {
+          reject(e)
+        }
+      });
+    })
+  }
+  moveToDelivered(payload: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.patch<IRequest>(REQUEST_API + payload.id + "/", {
+        finished: true,
+        delivered: true
+      }).subscribe({
+        next: (response: IRequest) => {
+          resolve(response)
+        },
+        error: (e) => {
+          reject(e)
+        }
+      });
+    })
+  }
 }
