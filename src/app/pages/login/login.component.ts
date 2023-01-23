@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
       this.tokenStorage.saveUser(data);
       this.router.navigate(['/kanban']);
     }).catch(err => {
-      console.log(err)
+      this.reloadPage()
     });
   }
 
