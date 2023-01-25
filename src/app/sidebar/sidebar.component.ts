@@ -9,7 +9,7 @@ export interface RouteInfo {
 }
 
 export const ROUTES: RouteInfo[] = [
-    { path: '/kanban',        title: 'Kanban',            icon:'nc-tile-56',       class: '' },
+    { path: '/kanban',        title: 'Documents',            icon:'nc-tile-56',       class: '' },
 ];
 
 @Component({
