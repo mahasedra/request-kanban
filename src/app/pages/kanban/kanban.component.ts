@@ -2,11 +2,12 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Board } from 'app/models/kanban/board.model';
 import { Column } from 'app/models/kanban/column.model';
-import { IRequest, RequestState, RequestType } from 'app/interfaces/Request';
 import { RequestService } from 'app/_services/request.service';
 import { MatAccordion } from '@angular/material/expansion';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActService } from 'app/_services/act.service';
+// import { MatDialog } from '@angular/material/dialog';
+// import { ConfirmModalComponent } from 'app/components/confirm-modal/confirm-modal.component';
 
 
 @Component({
@@ -21,7 +22,8 @@ export class KanbanComponent implements OnInit {
   public board!: Board
 
 
-  constructor(private requestService: RequestService, private actService: ActService, private _snackBar: MatSnackBar) { }
+  constructor(private requestService: RequestService, private actService: ActService, private _snackBar: MatSnackBar,
+    ) { }
 
   public async ngOnInit(): Promise<void> {
     this.tasks = await this.requestService.get();
@@ -63,7 +65,6 @@ export class KanbanComponent implements OnInit {
 
       let notError = true
       const action = (event.container.id).toString()
-      console.log("CONTAINER", action )
       switch (action) {
         case "0":
           transferArrayItem(
@@ -117,5 +118,20 @@ export class KanbanComponent implements OnInit {
       panelClass: panelClass
     });
   }
+
+  // public openDetail(item: any) {
+  //   const dialogRef = this.dialog.open(ConfirmModalComponent, {
+  //     panelClass: '',
+  //     data: {
+  //       message: `Etes vous sur de supprimer l'espace de travail ${item.id}?`,
+  //     },
+  //   });
+  //   dialogRef.afterClosed().subscribe((inv: any) => {
+  //     console.log(inv);
+  //     if (inv) {
+  //       // TODO if true:
+  //     }
+  //   });
+  // }
 
 }

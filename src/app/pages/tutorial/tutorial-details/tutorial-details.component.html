@@ -1,0 +1,86 @@
+<div *ngIf="viewMode; else editable">
+  <div *ngIf="currentTutorial.id">
+    <h4>Type</h4>
+    <div>
+      <label><strong>Type:</strong></label> {{ currentTutorial.document_type }}
+    </div>
+    <div>
+      <label><strong>Prix:</strong></label>
+      {{ currentTutorial.cost }}
+    </div>
+    <div>
+      <label><strong>Durée:</strong></label>
+      {{ currentTutorial.duration}}
+    </div>
+
+    <a
+      class="badge badge-warning"
+      routerLink="/acts/{{ currentTutorial.id }}"
+    >
+      Modifier
+    </a>
+  </div>
+
+  <div *ngIf="!currentTutorial">
+    <br />
+    <p>Cliquer un document...</p>
+  </div>
+</div>
+
+<ng-template #editable>
+  <div *ngIf="currentTutorial.id" class="edit-form">
+    <h4>Type de documents</h4>
+    <form>
+      <div class="form-group">
+        <label for="document_type">Nom</label>
+        <input
+          type="text"
+          class="form-control"
+          id="document_type"
+          [(ngModel)]="currentTutorial.document_type"
+          name="document_type"
+        />
+      </div>
+      <div class="form-group">
+        <label for="cost">Prix</label>
+        <input
+          type="number"
+          class="form-control"
+          id="cost"
+          [(ngModel)]="currentTutorial.cost"
+          name="cost"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="duration">Durée</label>
+        <input
+          type="number"
+          class="form-control"
+          id="duration"
+          [(ngModel)]="currentTutorial.duration"
+          name="duration"
+        />
+      </div>
+
+    </form>
+
+    <button class="badge badge-danger mr-2" (click)="deleteTutorial()">
+      Supprimer
+    </button>
+
+    <button
+      type="submit"
+      class="badge badge-success mb-2"
+      (click)="updateTutorial()"
+    >
+      Modifier
+    </button>
+    <p>{{ message }}</p>
+  </div>
+
+  <div *ngIf="!currentTutorial.id">
+    <br />
+    <p>Document inaccessible...</p>
+  </div>
+</ng-template>

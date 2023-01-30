@@ -1,0 +1,28 @@
+<div class="list row">
+  <div class="col-md-8">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Recherche..." [(ngModel)]="title" />
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" (click)="searchTitle()">
+          Rechercher
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <h4>Liste des types de documents</h4>
+    <a class="btn btn-success" routerLink="/addAct">
+      Ajout
+    </a>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let tutorial of tutorials; let i = index" [class.active]="i == currentIndex"
+        (click)="setActiveTutorial(tutorial, i)">
+        {{ tutorial.document_type }}
+      </li>
+    </ul>
+
+  </div>
+  <div class="col-md-6">
+    <app-tutorial-details [viewMode]="true" [currentTutorial]="currentTutorial"></app-tutorial-details>
+  </div>
+</div>

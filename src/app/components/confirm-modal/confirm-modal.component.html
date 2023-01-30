@@ -1,0 +1,19 @@
+<div class="modal_container">
+    <div class="modal_header">
+        <div class="sm_title">Confirmation</div>
+        <button (click)="onClose()" class="close_btn btn_icon">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <hr class="separator" />
+    <div class="modal_body">
+        <div class="text">{{ message}}</div>
+        <div class="modal_footer" style="gap: 16px;">
+            <button (click)="confirm()" class="btn_primary">
+                Confirmer
+            </button>
+            <button (click)="onClose()" class="btn_danger">
+                Annuler
+            </button>
+        </div>
+    </div>

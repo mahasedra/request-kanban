@@ -1,0 +1,48 @@
+<div>
+  <div class="submit-form">
+    <div *ngIf="!submitted">
+      <div class="form-group">
+        <label for="title">Type de documents</label>
+        <input
+          type="text"
+          class="form-control"
+          id="document_type"
+          required
+          [(ngModel)]="tutorial.document_type"
+          name="document_type"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Prix</label>
+        <input
+          class="form-control"
+          id="cost"
+          type="number"
+          required
+          [(ngModel)]="tutorial.cost"
+          name="cost"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="duration">Durée</label>
+        <input
+          class="form-control"
+          id="duration"
+          type="number"
+          required
+          [(ngModel)]="tutorial.duration"
+          name="duration"
+        />
+      </div>
+
+      <button (click)="saveTutorial()" class="btn btn-success">Enregistrer</button>
+    </div>
+
+    <div *ngIf="submitted">
+      <h4>Type de document ajouté avec succès!</h4>
+      <button class="btn btn-success" (click)="newTutorial()">Nouveau</button>
+    </div>
+  </div>
+</div>

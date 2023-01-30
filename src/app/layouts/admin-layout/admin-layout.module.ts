@@ -10,6 +10,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { KanbanComponent } from 'app/pages/kanban/kanban.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { AddTutorialComponent } from 'app/pages/tutorial/add-tutorial/add-tutorial.component';
+import { TutorialDetailsComponent } from 'app/pages/tutorial/tutorial-details/tutorial-details.component';
+import { TutorialsListComponent } from 'app/pages/tutorial/tutorials-list/tutorials-list.component';
 
 @NgModule({
   imports: [
@@ -23,6 +26,9 @@ import { MatIconModule } from '@angular/material/icon';
   ],
   declarations: [
     KanbanComponent,
+    AddTutorialComponent,
+    TutorialDetailsComponent,
+    TutorialsListComponent
   ]
 })
 

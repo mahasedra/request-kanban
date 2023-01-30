@@ -1,0 +1,42 @@
+/*********************************************
+                Modal STYLE
+**********************************************/
+.modal_container {
+    width: 350px;
+
+    .modal_header {
+        display: flex;
+        align-items: center;
+        padding: 16px 16px 0;
+        color: #333333;
+        position: relative;
+
+        .sm_title {
+            margin-left: 8px;
+        }
+
+        .close_btn {
+            position: absolute;
+            right: 12px;
+            top: 12px;
+        }
+    }
+
+    .separator {
+        width: 85%;
+        margin: auto;
+        border: 1px solid var(--color-border);
+    }
+
+    .modal_body {
+        padding: 24px 24px 0px 24px;
+        position: relative;
+    }
+
+    .modal_footer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 24px;
+    }
+}
